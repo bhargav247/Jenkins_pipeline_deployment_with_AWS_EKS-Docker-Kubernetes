@@ -3,7 +3,6 @@ pipeline {
   stages {
     stage('Lint') {
       steps {
-        //Lint Dockerfile
         hadolint Dockerfile
         sh 'tidy -q -e *.html'
       
@@ -19,24 +18,6 @@ pipeline {
       }
     }
    
-    stage('Push Docker Image') {
-      steps {
-
-      }
+    
     }
-
-    stage('set current kubectl context') {
-    steps {
-
-      }
-  }
-
-    stage('Deploy Kubernetes') {
-      steps {
-      
-      }
-    }
-  }
 }
-
-   
