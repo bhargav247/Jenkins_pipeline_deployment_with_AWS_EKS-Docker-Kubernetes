@@ -11,7 +11,8 @@ pipeline {
 
     stage('Build Docker Image') {
       steps {
-        withCredentials([[[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
+        withCredentials([string(credentialsId: 'docker-pwd', variable: 'dockerhubpwd')]) {
+          sh 'docker login -u bhargav247 -p ${dockerhubpwd}'
 		      sh 'docker build --tag=bhargav247/greenimage'
 
         }
