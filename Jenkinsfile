@@ -11,9 +11,11 @@ pipeline {
 
     stage('Build Docker Image') {
       steps {
+        script{
         dockerImage = docker.build('bhargav247/greenimage')
-                    docker.withRegistry('', 'dockerhub') {
-                        dockerImage.push()
+        docker.withRegistry('', 'dockerhub') {
+          dockerImage.push()
+        }
         }
       }
     }
