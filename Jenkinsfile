@@ -18,6 +18,7 @@ pipeline {
         }
       }
     }
+   
     stage('Push Docker Image') {
       steps {
         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
@@ -28,6 +29,7 @@ pipeline {
          }
       }
     }
+   
     stage('Setting Kubectl context') {
 			steps {
 				withAWS(region:'us-west-2', credentials:'capstone') {
@@ -38,6 +40,7 @@ pipeline {
 				}
 			}
 		}
+   
    stage('Deploy blue container') {
       steps {
         withAWS(region:'us-west-2', credentials:'capstone') {
@@ -45,10 +48,19 @@ pipeline {
         }
       }
     }
+    
     stage('Deploy green container') {
       steps {
         withAWS(region:'us-west-2', credentials:'capstone') {
         sh 'kubectl apply -f ./green/green-controller.json'
+        }
+      }
+    }
+
+    stage('Deploy blue-green service') {
+      steps {
+        withAWS(region:'us-west-2', credentials:'capstone') {
+        sh 'kubectl apply -f ./blue-green-service.json'
         }
       }
     }
