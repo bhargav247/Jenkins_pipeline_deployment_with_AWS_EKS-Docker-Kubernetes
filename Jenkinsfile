@@ -21,7 +21,9 @@ pipeline {
     }
    stage('Deploy Kubernetes') {
       steps {
-        sh 'kubectl apply -f ./kubernetes'
+        withAWS(region:'us-west-2', credentials:'jenkins') {
+        sh 'kubectl apply -f ./blue-green-service.json'
+        }
       }
     }
   }
