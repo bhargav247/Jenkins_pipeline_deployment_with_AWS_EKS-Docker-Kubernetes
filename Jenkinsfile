@@ -4,8 +4,8 @@ pipeline {
     stage('Lint') {
       steps {
        // hadolint Dockerfile
-        sh 'tidy -q -e *.html'
-      
+        sh 'tidy -q -e ./blue/*.html'
+        sh 'tidy -q -e ./green/*.html'
       }
     }
 
@@ -57,7 +57,7 @@ pipeline {
       }
     }
 
-    stage('Deploy blue-green service') {
+    stage('Deploy green service') {
       steps {
         withAWS(region:'us-west-2', credentials:'capstone') {
         sh 'kubectl apply -f ./blue-green-service.json'
