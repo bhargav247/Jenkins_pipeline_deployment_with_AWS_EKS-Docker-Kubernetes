@@ -21,7 +21,7 @@ pipeline {
     }
    stage('Deploy Kubernetes') {
       steps {
-        withAWS(region:'us-west-2', credentials:'aws') {
+        withAWS(region:'us-west-2', credentials:'capstone') {
         sh 'kubectl apply -f ./blue-green-service.json'
         }
       }
