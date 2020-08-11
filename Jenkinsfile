@@ -64,5 +64,17 @@ pipeline {
         }
       }
     }
+    stage('Switch deployment?') {
+      steps {
+        input "Switch deployment?"
+    } 
+    }
+    stage('Deploy blue service') {
+      steps {
+        withAWS(region:'us-west-2', credentials:'capstone') {
+        sh 'kubectl apply -f ./blue-service.json'
+          }
+        }
+      }
   }
 }
