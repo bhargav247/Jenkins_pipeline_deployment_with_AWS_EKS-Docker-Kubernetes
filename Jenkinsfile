@@ -28,7 +28,7 @@ pipeline {
          }
       }
     }
-    stage('Set kubectl context') {
+    stage('Setting Kubectl context') {
 			steps {
 				withAWS(region:'us-west-2', credentials:'capstone') {
 					sh '''
@@ -38,10 +38,17 @@ pipeline {
 				}
 			}
 		}
-   stage('Deploy Kubernetes') {
+   stage('Deploy blue container') {
       steps {
         withAWS(region:'us-west-2', credentials:'capstone') {
-        sh 'kubectl apply -f ./blue-green-service.json'
+        sh 'kubectl apply -f ./blue/blue-controller.json'
+        }
+      }
+    }
+    stage('Deploy green container') {
+      steps {
+        withAWS(region:'us-west-2', credentials:'capstone') {
+        sh 'kubectl apply -f ./green/green-controller.json'
         }
       }
     }
