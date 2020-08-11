@@ -16,11 +16,11 @@ pipeline {
         }
       }
     }
-    stage('Build Docker Image') {
+    stage('Push Docker Image') {
       steps {
         script{
         docker.withRegistry('', 'dockerhub') 
-        dockerImage=docker.push(bhargav247/capstone)
+        dockerImage=docker.push('bhargav247/capstone')
          }
       }
     }
