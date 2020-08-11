@@ -11,16 +11,23 @@ pipeline {
 
     stage('Build Docker Image') {
       steps {
-        script{
-        dockerImage = docker.build('bhargav247/capstone')
+       withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
+         //dockerImage = docker.build('bhargav247/capstone')
+         sh '''
+              docker build -t bhargav247/capstone . 
+          '''
         }
       }
     }
     stage('Push Docker Image') {
       steps {
-        script{
-        docker.withRegistry('', 'dockerhub') 
-        dockerImage.push('bhargav247/capstone')
+        //docker.withRegistry('', 'dockerhub') 
+        //dockerImage.push('bhargav247/capstone')
+        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
+					sh '''
+          docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+          docker push bhargav247/capstone
+           '''
          }
       }
     }
