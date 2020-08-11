@@ -12,11 +12,16 @@ pipeline {
     stage('Build Docker Image') {
       steps {
         script{
-        dockerImage = docker.build('bhargav247/greenimage')
-        docker.withRegistry('', 'dockerhub') {
-          dockerImage.push()
+        dockerImage = docker.build('bhargav247/capstone')
         }
-        }
+      }
+    }
+    stage('Push Docker Image') {
+      steps {
+        script{
+        docker.withRegistry('', 'dockerhub') 
+        docker push 'bhargav247/capstone'
+         }
       }
     }
    stage('Deploy Kubernetes') {
