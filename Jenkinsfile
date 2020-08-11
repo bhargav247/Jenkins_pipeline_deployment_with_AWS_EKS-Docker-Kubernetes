@@ -20,7 +20,7 @@ pipeline {
       steps {
         script{
         docker.withRegistry('', 'dockerhub') 
-        dockerImage=docker.push('bhargav247/capstone')
+        dockerImage.push('bhargav247/capstone')
          }
       }
     }
